@@ -23,6 +23,10 @@ pkgTest <- function(pkg){
   sapply(pkg,  require,  character.only = TRUE)
 }
 
+install.packages("car")
+install.packages("tidyverse")
+library("car")
+library(tidyverse)
 # here is where you load any necessary packages
 # ex: stringr
 # lapply(c("stringr"),  pkgTest)
@@ -64,7 +68,7 @@ t.test(y)
 # H_0: mean <= 100, H_alpha: mean > 100
 # One-sided test
 
-test_stat <- (mean_y - 100)/se_y
+test_stat <- (mean_y - 100)/se_y                 #Calculate test statistic
 P_value <- pt(abs(test_stat), 24, lower.tail = TRUE)
 
 # P_value = 0.7 therefore we do not reject the null hypothesis
@@ -78,8 +82,7 @@ plot(IQ, dnorm(x=x.range, mean=mean_y, sd=sd_y),  # I have used dnorm
      lwd=2,                                       # Specify type of line
      xaxt="n")                                    
 axis(1, at=seq(0,150,by=20), labels=seq(0,150,by=20)) # x-axis up in 20's 
-abline(v=mean_y, col="blue")                      
-# Add a blue line at the sample mean
+abline(v=mean_y, col="blue")    # Add a blue line at the sample mean
 
 
 
@@ -90,6 +93,8 @@ abline(v=mean_y, col="blue")
 
 expenditure <- read.table("https://raw.githubusercontent.com/ASDS-TCD/StatsI_Fall2021/main/datasets/expenditure.txt", header=T)
 
+pairs(expenditure[,2:5], lower.panel=NULL,
+      main = "Correlation matrix for data in 'expenditure' data set") #Matrix of correlations within 2nd-5th variables
 
 scatter.smooth(expenditure$Y, expenditure$X1, ylab="Per capita income", xlab = "Per capita expenditure on housing assistance")
 cor(expenditure$Y, expenditure$X1)
@@ -112,7 +117,12 @@ barplot(Y_means_by_region$x,
         xlab = "Region")
 
 scatter.smooth(expenditure$Y, expenditure$X1, ylab="Per capita income", xlab = "Per capita expenditure on housing assistance")
-cor(expenditure$Y, expenditure$X1)
 
 
-      
+scatterplot(Y ~ X1|Region, 
+            data = expenditure,
+            smooth = FALSE, grid = FALSE, regLine=FALSE,
+            ylab= "Per capita expenditure on housing assistance",
+            xlab = "Personal income per capita")
+
+
